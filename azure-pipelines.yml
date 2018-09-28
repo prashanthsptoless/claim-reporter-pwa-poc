@@ -13,12 +13,12 @@ variables:
 
 steps:
 - script: docker login -u $(dockerId) -p $(dockerPass)
-  displayName: 'docker login'
+  displayName: "docker login"
 - script: docker build -t $(image) $(app)
-  displayName: 'docker build $(app)'
+  displayName: "docker build $(app)"
 - script: docker tag $(image) $(image):$(tag)
-  displayName: 'docker tag $(image):$(tag)'
+  displayName: "docker tag $(image):$(tag)"
 - script: docker push $(image):$(tag)
-  displayName: 'docker push $(image):$(tag)'
+  displayName: "docker push $(image):$(tag)"
 - script: docker push $(image):latest
-  displayName: 'docker push $(image):latest'
+  displayName: "docker push $(image):latest"
