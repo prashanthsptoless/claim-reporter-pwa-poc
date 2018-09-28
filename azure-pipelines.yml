@@ -7,8 +7,18 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 variables:
-  imageName: 'your-container-image-name:$(build.buildId)'
+  app: 'claim-reporter-app'
+  image: '$(dockerNamespace)/claim-reporter-app'
+  tag: '$(build.buildId)'
 
 steps:
-- script: docker build -f Dockerfile -t $(imageName) .
-  displayName: 'docker build'
+- script: docker login -u $(dockerId) -p $(dockerPass)
+  displayName: 'docker login'
+- script: docker build -t $(image) $(app)
+  displayName: 'docker build $(app)'
+- script: docker tag $(image) $(image):$(tag)
+  displayName: 'docker tag $(image):$(tag)'
+- script: docker push $(image):$(tag)
+  displayName: 'docker push $(image):$(tag)'
+- script: docker push $(image):latest
+  displayName: 'docker push $(image):latest'
